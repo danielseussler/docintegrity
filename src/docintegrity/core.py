@@ -31,7 +31,7 @@ def init_tokenizer(download_dir: str):
 def init_model(cache_dir: str, model_name: str) -> str:
     """Download model to specified cache directory and return model path."""
     api.BASE_DIR = os.path.join(cache_dir, "gensim-data")
-    available_models = api.info()["models"].keys() # type: ignore
+    available_models = api.info()["models"].keys()  # type: ignore
 
     assert (
         model_name in available_models
@@ -68,7 +68,7 @@ def find_duplicates(
     tokenizer = init_tokenizer(download_dir=nltk_dir)
     docs = []
 
-    for file_path in file_list:
+    for file_path in tqdm(file_list, desc="Processing files", unit="files"):
         doc = read_docx_and_get_sentences(
             file_path=file_path, tokenizer=tokenizer, cache_dir=cache_dir
         )
@@ -78,7 +78,7 @@ def find_duplicates(
     # Compare sentences by embedding similiarity
     duplicates = []
 
-    for i, current_doc in enumerate(tqdm(docs[:-1])):
+    for i, current_doc in enumerate(tqdm(docs[:-1], desc="Comparing files", unit="files")):
         for sentence1 in current_doc:
             for j, other_doc in enumerate(docs[i + 1 :], start=i + 1):
                 for sentence2 in other_doc:
@@ -97,15 +97,15 @@ def find_duplicates(
                         )
 
     df = pd.DataFrame(duplicates)
-    df = df.sort_values(by=["similarity"])
-    
-    if output_path:  
+    df.sort_values("similarity", ascending=True, inplace=True)
+
+    if output_path:
         current_datetime = datetime.datetime.now()
         formatted_datetime = current_datetime.strftime("%Y%m%d_%H%M%S")
 
         folder_name = os.path.basename(os.path.dirname(folder_path))
         fname = f"{formatted_datetime}_{folder_name}.csv"
-        
+
         df.to_csv(os.path.join(output_path, fname), index=False)
 
     return df

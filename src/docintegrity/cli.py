@@ -20,4 +20,5 @@ from docintegrity.core import find_duplicates
     help="The embedding model used to embedd the sentences in the documents.",
 )
 def cli(*args, **kwargs) -> None:
-    find_duplicates(*args, **kwargs)
+    _ = find_duplicates(*args, **kwargs)
+    print("The output was saved in {output_path}.")

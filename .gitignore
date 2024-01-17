@@ -1,0 +1,6 @@
+# folders
+dist/*
+
+# files with ending 
+*.whl
+*.tar.gz
