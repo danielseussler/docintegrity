@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "docintegrity"
+version = "0.1.0"
+description = ""
+authors = ["Daniel Seussler <dseussler at outlook dot com>"]
+readme = "README.md"
+packages = [{include = "docintegrity", from="src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "^2.1.3"
+python-docx = "^1.1.0"
+click = "^8.1.7"
+gensim = "^4.3.2"
+tqdm = "^4.66.1"
+tabulate = "^0.9.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+ipykernel = "^6.27.1"
+mypy = "^1.8.0"
+
+[tool.poetry.group.ipykernel.dependencies]
+pytest = "^7.4.3"
+
+[tool.poetry.scripts]
+docintegrity = "docintegrity.cli:cli"
+
+[build-system]
+requires = ["poetry-core", "setuptools>=40.8.0"]
+build-backend = "poetry.core.masonry.api"
