@@ -21,4 +21,4 @@ from docintegrity.core import find_duplicates
 )
 def cli(*args, **kwargs) -> None:
     _ = find_duplicates(*args, **kwargs)
-    print("The output was saved in {output_path}.")
+    print(f"The output was saved in {output_path}.")
